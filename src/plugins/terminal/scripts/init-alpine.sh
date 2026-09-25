@@ -85,6 +85,10 @@ fi
     echo "$$" > "$PREFIX/pid"
     chmod +x "$PREFIX/axs"
 
+    if [ -f "$PREFIX/alpine/etc/acode_motd" ]; then
+        sed -i 's/Acode/Wcode/g' "$PREFIX/alpine/etc/acode_motd"
+    fi
+
     if [ ! -e "$PREFIX/alpine/etc/acode_motd" ]; then
         cat <<EOF > "$PREFIX/alpine/etc/acode_motd"
 Welcome to Alpine Linux in Wcode!
@@ -110,7 +114,7 @@ EOF
 usage() {
     echo "Usage: acode [file/folder...]"
     echo ""
-    echo "Open files or folders in Acode editor."
+    echo "Open files or folders in Wcode editor."
     echo ""
     echo "Examples:"
     echo "  acode file.txt      # Open a file"
