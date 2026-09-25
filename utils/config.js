@@ -313,6 +313,12 @@ async function configureProject({
 
 	const targetId = variant === "free" ? ID_FREE : ID_PAID;
 	const identityChanged = currentId !== targetId;
+	const generatedPlatformPackageId = getGeneratedPlatformPackageId(
+		paths.platforms,
+		fsImpl,
+	);
+	const platformIdentityStale =
+		generatedPlatformPackageId && generatedPlatformPackageId !== targetId;
 	const actions = getAdmobSyncPlan({
 		variant,
 		bundleExists: fsImpl.existsSync(paths.bundle),
