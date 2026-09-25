@@ -108,8 +108,8 @@ EOF
         mkdir -p "$PREFIX/alpine/usr/local/bin"
         cat <<'ACODE_CLI' > "$PREFIX/alpine/usr/local/bin/acode"
 #!/bin/bash
-# acode - Open files/folders in Acode editor
-# Uses OSC escape sequences to communicate with the Acode terminal
+# acode - Open files/folders in Wcode editor
+# Uses OSC escape sequences to communicate with the Wcode terminal
 
 usage() {
     echo "Usage: acode [file/folder...]"
