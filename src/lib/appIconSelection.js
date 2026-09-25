@@ -7,7 +7,7 @@ import config from "./config";
 import { requestProPurchase } from "./removeAds";
 import showRewardedAd from "./rewardedAd";
 import appSettings from "./settings";
-import showInterstitialAd from "./interstitialAd";
+import { showInterstitialAd } from "./startAd";
 
 // Also exclude a newly opened picker while an earlier native change is pending.
 let selecting = false;
