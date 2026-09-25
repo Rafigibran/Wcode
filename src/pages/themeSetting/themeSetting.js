@@ -20,6 +20,7 @@ import { updateActiveTerminals } from "settings/terminalSettings";
 import ThemeBuilder from "theme/builder";
 import themes from "theme/list";
 import helpers from "utils/helpers";
+import showInterstitialAd from "lib/interstitialAd";
 
 export default function () {
 	const $page = Page(strings.theme.capitalize());
@@ -225,6 +226,7 @@ export default function () {
 		}
 		const label = name.charAt(0).toUpperCase() + name.slice(1);
 		updateCheckedItem(label);
+		void showInterstitialAd("terminal-theme-changed");
 	}
 
 	function createTerminalPreview(themeName) {
@@ -274,7 +276,7 @@ export default function () {
 				<div className="terminal-line terminal-prompt">
 					<span style={`color:${theme.green};`}>user</span>
 					<span style={`color:${theme.foreground};`}>@</span>
-					<span style={`color:${theme.blue};`}>acode</span>
+					<span style={`color:${theme.blue};`}>Wcode</span>
 					<span style={`color:${theme.foreground};`}>:~$ </span>
 					<span
 						className="terminal-cursor"
@@ -329,8 +331,9 @@ export default function () {
 			return;
 		}
 
-		themes.apply(theme.id, true);
+		await themes.apply(theme.id, true);
 		updateCheckedItem(theme.name);
+		void showInterstitialAd("app-theme-changed");
 	}
 
 	/**
@@ -362,6 +365,7 @@ export default function () {
 			false,
 		);
 		updateCheckedItem(caption);
+		void showInterstitialAd("editor-theme-changed");
 	}
 
 	/**
