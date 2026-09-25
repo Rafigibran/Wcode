@@ -20,6 +20,9 @@ export let bannerAd = null;
 /** @type {import("plugins/admob/src/www").InterstitialAd} */
 export let interstitialAd = null;
 let consentCoordinator = null;
+let interstitialLoadPromise = null;
+let interstitialShowing = false;
+let pendingInterstitialRequests = 0;
 
 export default async function startAd() {
 	if (!canUseAdmob()) {
@@ -63,16 +66,47 @@ export function subscribePrivacyState(listener) {
 }
 
 export async function showInterstitialAd() {
+	pendingInterstitialRequests += 1;
+	return drainInterstitialQueue();
+}
+
+async function drainInterstitialQueue() {
+	if (interstitialShowing || pendingInterstitialRequests <= 0) return false;
 	if (!canUseAdmob() || !interstitialAd) return false;
 
 	try {
-		if (!(await interstitialAd.isLoaded())) return false;
+		if (!(await interstitialAd.isLoaded())) {
+			await preloadInterstitial();
+			if (!(await interstitialAd.isLoaded())) return false;
+		}
+
+		pendingInterstitialRequests -= 1;
+		interstitialShowing = true;
 		await interstitialAd.show();
 		return true;
 	} catch (error) {
+		interstitialShowing = false;
 		console.warn("Failed to show interstitial ad:", error);
 		return false;
 	}
+}
+
+async function preloadInterstitial() {
+	if (!interstitialAd) return false;
+	if (interstitialLoadPromise) return interstitialLoadPromise;
+
+	interstitialLoadPromise = interstitialAd
+		.load()
+		.then(() => true)
+		.catch((error) => {
+			console.warn("Failed to preload interstitial ad:", error);
+			return false;
+		})
+		.finally(() => {
+			interstitialLoadPromise = null;
+		});
+
+	return interstitialLoadPromise;
 }
 
 export async function showPrivacyOptions() {
@@ -83,11 +117,7 @@ export async function showPrivacyOptions() {
 }
 
 function canUseAdmob() {
-	return (
-		!config.HAS_PRO &&
-		typeof admob !== "undefined" &&
-		window.ANDROID_SDK_INT >= 29
-	);
+	return typeof admob !== "undefined" && window.ANDROID_SDK_INT >= 29;
 }
 
 function getConsentCoordinator() {
@@ -128,13 +158,16 @@ async function initializeAds() {
 		adUnitId: adUnitIdInterstitial,
 	});
 
-	interstitial.load().catch((error) => {
-		console.warn("Failed to preload interstitial ad:", error);
-	});
+	void preloadInterstitial();
 	interstitial.on("dismiss", () => {
-		interstitial.load().catch((error) => {
-			console.warn("Failed to reload interstitial ad:", error);
-		});
+		interstitialShowing = false;
+		void preloadInterstitial();
+		void drainInterstitialQueue();
+	});
+	interstitial.on("showfail", () => {
+		interstitialShowing = false;
+		void preloadInterstitial();
+		void drainInterstitialQueue();
 	});
 
 	bannerAd = banner;
@@ -144,6 +177,7 @@ async function initializeAds() {
 	window.iad = interstitial;
 	window.adRewardedUnitId = adUnitIdRewarded;
 	initialized = true;
+	void drainInterstitialQueue();
 }
 
 /**
