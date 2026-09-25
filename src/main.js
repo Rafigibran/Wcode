@@ -1,3 +1,4 @@
+import "./lib/interstitialAd";
 import "core-js/stable";
 import "html-tag-js/dist/polyfill";
 
