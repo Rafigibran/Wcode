@@ -20,7 +20,7 @@ import { updateActiveTerminals } from "settings/terminalSettings";
 import ThemeBuilder from "theme/builder";
 import themes from "theme/list";
 import helpers from "utils/helpers";
-import showInterstitialAd from "lib/interstitialAd";
+import { showInterstitialAd } from "lib/startAd";
 
 export default function () {
 	const $page = Page(strings.theme.capitalize());
