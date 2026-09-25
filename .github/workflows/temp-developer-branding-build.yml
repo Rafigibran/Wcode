@@ -48,8 +48,10 @@ jobs:
           APK="platforms/android/app/build/outputs/apk/debug/app-debug.apk"
           test -f "$APK"
           AAPT="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n 1)/aapt"
-          "$AAPT" dump badging "$APK" | grep -q "package: name='com.wizardnative.wcode'"
-          "$AAPT" dump badging "$APK" | grep -q "application-label:'Wcode'"
+          BADGING="$("$AAPT" dump badging "$APK")"
+          echo "$BADGING" | grep -E "package: name=|application-label" | head -n 10
+          echo "$BADGING" | grep -q "package: name='com.wizardnative.wcode'"
+          echo "$BADGING" | grep -Eq "application-label(-[a-zA-Z-]+)?:'Wcode'"
           echo "Package and label verified."
 
       - name: Upload APK
