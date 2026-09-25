@@ -60,7 +60,9 @@ function onselect(value) {
 			CustomTheme();
 			return;
 		}
-		void themes.apply(selection.theme, true);
-		void showInterstitialAd("app-theme-changed");
+		void themes
+			.apply(selection.theme, true)
+			.then(() => showInterstitialAd("app-theme-changed"))
+			.catch((error) => console.warn("Failed to apply app theme:", error));
 	}
 }
