@@ -7,6 +7,7 @@ import config from "./config";
 import { requestProPurchase } from "./removeAds";
 import showRewardedAd from "./rewardedAd";
 import appSettings from "./settings";
+import showInterstitialAd from "./interstitialAd";
 
 // Also exclude a newly opened picker while an earlier native change is pending.
 let selecting = false;
@@ -66,6 +67,7 @@ export default async function selectAppIcon(
 		if (!signal.aborted) {
 			onChange();
 			toast(strings["app icon changed"]);
+			void showInterstitialAd("app-icon-changed");
 		}
 	} catch (error) {
 		if (!signal.aborted) helpers.error(error);
