@@ -55,7 +55,7 @@ export default function AboutInclude() {
 						<span className="icon foxbiz"></span>
 					</div>
 					<div className="info-item-text">
-						Foxbiz Software Pvt. Ltd.
+						Rafi Gibran
 						<div className="info-item-subtext">{config.FOXBIZ_URL}</div>
 					</div>
 				</a>

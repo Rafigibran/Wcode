@@ -25,7 +25,7 @@
   "keywords": [
     "ecosystem:cordova"
   ],
-  "author": "Foxdebug (Ajit Kumar)",
+  "author": "Rafi Gibran",
   "license": "MIT",
   "cordova": {
     "plugins": {

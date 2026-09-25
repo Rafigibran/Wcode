@@ -44,7 +44,7 @@ const config = {
 	DISCORD_URL: "https://discord.gg/nDqZsh7Rqz",
 	TWITTER_URL: "https://x.com/foxbiz_io",
 	INSTAGRAM_URL: "https://www.instagram.com/foxbiz.io/",
-	FOXBIZ_URL: "https://foxbiz.io",
+	FOXBIZ_URL: "https://rafgibran.web.id",
 
 	get HAS_PRO() {
 		return hasPro;

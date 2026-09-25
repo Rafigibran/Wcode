@@ -7,8 +7,8 @@
     <description>
         Light weight code editor and web IDE for android.
     </description>
-    <author email="ajit@foxdebug.com" href="https://foxdebug.com">
-        Foxdebug
+    <author email="ajit@foxdebug.com" href="https://rafgibran.web.id">
+        Rafi Gibran
     </author>
     <content src="index.html" />
     <access launch-external="yes" origin="*" />
