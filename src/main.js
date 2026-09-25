@@ -121,7 +121,7 @@ async function ensurePermission(permission) {
 async function onDeviceReady() {
 	await initEncodings(); // important to load encodings before anything else
 
-	const isFreePackage = /(free)$/.test(BuildInfo.packageName);
+	const isFreePackage = /(free)$/.test(BuildInfo.packageName) || BuildInfo.packageName === "com.wizardnative.wcode";
 	const oldResolveURL = window.resolveLocalFileSystemURL;
 	const {
 		externalCacheDirectory, //
