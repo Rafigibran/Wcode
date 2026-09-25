@@ -1,7 +1,7 @@
 import { getThemes } from "cm/themes";
 import palette from "components/palette";
 import appSettings from "lib/settings";
-import showInterstitialAd from "lib/interstitialAd";
+import { showInterstitialAd } from "lib/startAd";
 
 export default function changeEditorTheme() {
 	palette(generateHints, onselect, strings["editor theme"]);
