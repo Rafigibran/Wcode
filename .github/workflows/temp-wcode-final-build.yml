@@ -48,12 +48,14 @@ jobs:
           APK="platforms/android/app/build/outputs/apk/debug/app-debug.apk"
           test -f "$APK"
           AAPT=$(find "$ANDROID_HOME/build-tools" -maxdepth 2 -type f -name aapt | sort -V | tail -n 1)
-          PKG="$($AAPT dump badging "$APK" | sed -n "s/^package: name='\([^']*\)'.*/\1/p")"
-          LABEL="$($AAPT dump badging "$APK" | sed -n "s/^package: name='[^']*' versionCode=.* application-label:'\([^']*\)'.*/\1/p")"
-          test "$PKG" = "com.wizardnative.wcode"
-          test "$LABEL" = "Wcode"
+          BADGING="$($AAPT dump badging "$APK")"
+          echo "$BADGING"
+          PKG="$(printf '%s\n' "$BADGING" | awk -F"'" '/^package: name=/{print $2; exit}')"
+          LABEL="$(printf '%s\n' "$BADGING" | sed -n "s/.*application-label:'\([^']*\)'.*/\1/p" | head -n 1)"
           echo "Package: $PKG"
           echo "Label: $LABEL"
+          test "$PKG" = "com.wizardnative.wcode"
+          test "$LABEL" = "Wcode"
 
       - name: Upload APK
         uses: actions/upload-artifact@v7
