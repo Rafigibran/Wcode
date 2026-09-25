@@ -381,7 +381,7 @@ public class TerminalService extends Service {
         int notificationIcon = resolveDrawableId("ic_notification", "ic_launcher_foreground", "ic_launcher");
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Acode Service")
+                .setContentTitle("Wcode Service")
                 .setContentText(contentText)
                 .setSmallIcon(notificationIcon)
                 .setOngoing(true)
