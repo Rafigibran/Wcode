@@ -6,6 +6,7 @@ import purchaseListener from "handlers/purchase";
 import JSZip from "jszip";
 import helpers from "utils/helpers";
 import Url from "utils/Url";
+import showInterstitialAd from "./interstitialAd";
 import { isVersionGreater } from "utils/version";
 import config from "./config";
 import InstallState from "./installState";
@@ -262,6 +263,7 @@ export default async function installPlugin(
 
 			await state.save();
 			deleteRedundantFiles(pluginDir, state);
+			if (!isDependency) void showInterstitialAd("plugin-installed");
 		}
 	} catch (err) {
 		try {
