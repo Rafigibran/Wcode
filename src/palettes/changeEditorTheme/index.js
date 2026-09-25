@@ -1,6 +1,7 @@
 import { getThemes } from "cm/themes";
 import palette from "components/palette";
 import appSettings from "lib/settings";
+import showInterstitialAd from "lib/interstitialAd";
 
 export default function changeEditorTheme() {
 	palette(generateHints, onselect, strings["editor theme"]);
@@ -25,4 +26,5 @@ function onselect(themeId) {
 	const ok = editorManager.editor.setTheme(themeId);
 	if (!ok) return;
 	appSettings.update({ editorTheme: themeId }, false);
+	void showInterstitialAd("editor-theme-changed");
 }
