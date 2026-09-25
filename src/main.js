@@ -60,6 +60,7 @@ import { migrateLegacySftpProfiles } from "lib/sftpProfiles";
 import startAd, {
 	BANNER_SUPPRESSION_REASON,
 	setBannerSuppressed,
+	showInterstitialAd,
 } from "lib/startAd";
 import mustache from "mustache";
 import themes from "theme/list";
@@ -994,16 +995,33 @@ function menuButtonHandler() {
 	acode?.exec("toggle-sidebar");
 }
 
+let lastPauseAt = 0;
+let lastInterstitialAt = 0;
+const INTERSTITIAL_COOLDOWN_MS = 5 * 60 * 1000;
+const INTERSTITIAL_MIN_BACKGROUND_MS = 60 * 1000;
+
 async function pauseHandler() {
 	const { acode } = window;
+	lastPauseAt = Date.now();
 	await window.editorManager?.flushCacheWrites?.();
 	acode?.exec("save-state");
 }
 
 function resumeHandler() {
 	adRewards.handleResume();
+	void maybeShowInterstitialAfterResume();
 	if (!settings.value.checkFiles) return;
 	checkFiles();
+}
+
+async function maybeShowInterstitialAfterResume() {
+	const now = Date.now();
+	if (!lastPauseAt || now - lastPauseAt < INTERSTITIAL_MIN_BACKGROUND_MS) return;
+	if (now - lastInterstitialAt < INTERSTITIAL_COOLDOWN_MS) return;
+
+	if (await showInterstitialAd()) {
+		lastInterstitialAt = Date.now();
+	}
 }
 
 function createAceModelistCompatModule() {
