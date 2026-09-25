@@ -127,6 +127,21 @@ function readPackageJson(packagePath, fsImpl) {
 	return JSON.parse(fsImpl.readFileSync(packagePath, "utf8"));
 }
 
+function getGeneratedPlatformPackageId(platformsPath, fsImpl) {
+	const manifestPath = path.join(
+		platformsPath,
+		"android",
+		"app",
+		"src",
+		"main",
+		"AndroidManifest.xml",
+	);
+	if (!fsImpl.existsSync(manifestPath)) return null;
+
+	const manifest = fsImpl.readFileSync(manifestPath, "utf8");
+	return /<manifest\b[^>]*\bpackage=["']([^"']+)["']/.exec(manifest)?.[1] || null;
+}
+
 function getConfigPluginPattern(pluginId, flags = "i") {
 	const escapedId = pluginId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 	return new RegExp(`<plugin\\b(?=[^>]*\\bname=["']${escapedId}["'])`, flags);
@@ -360,8 +375,8 @@ async function configureProject({
 			.readdirSync(paths.platforms)
 			.some((entry) => entry && !entry.startsWith("."));
 
-	if (identityChanged && hasPlatforms) {
-		console.log("|--- Reinstalling platforms for the new app identity ---|");
+	if ((identityChanged || platformIdentityStale) && hasPlatforms) {
+		console.log("|--- Reinstalling platforms to synchronize Android app identity ---|");
 		await commandRunner("npm", ["run", "clean"], { cwd: rootDir });
 	}
 
