@@ -139,9 +139,9 @@ export default async function installPlugin(
 
 				let titleText;
 				if (manifests.length > 1) {
-					titleText = "Acode wants to install the following dependencies:";
+					titleText = "Wcode wants to install the following dependencies:";
 				} else {
-					titleText = "Acode wants to install the following dependency:";
+					titleText = "Wcode wants to install the following dependency:";
 				}
 
 				const shouldInstall = await confirm(
