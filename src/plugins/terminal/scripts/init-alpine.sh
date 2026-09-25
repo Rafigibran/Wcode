@@ -87,7 +87,7 @@ fi
 
     if [ ! -e "$PREFIX/alpine/etc/acode_motd" ]; then
         cat <<EOF > "$PREFIX/alpine/etc/acode_motd"
-Welcome to Alpine Linux in Acode!
+Welcome to Alpine Linux in Wcode!
 
 Working with packages:
 
