@@ -4,7 +4,7 @@ import config from "lib/config";
 import appSettings from "lib/settings";
 import themes, { updateSystemThemeWatcher } from "theme/list";
 import changeEditorTheme from "../changeEditorTheme";
-import showInterstitialAd from "lib/interstitialAd";
+import { showInterstitialAd } from "lib/startAd";
 
 export default function changeTheme(type = "editor") {
 	if (type === "editor") return changeEditorTheme();
