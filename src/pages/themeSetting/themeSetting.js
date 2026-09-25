@@ -266,7 +266,7 @@ export default function () {
 				<div className="terminal-line terminal-prompt">
 					<span style={`color:${theme.green};`}>user</span>
 					<span style={`color:${theme.foreground};`}>@</span>
-					<span style={`color:${theme.blue};`}>acode</span>
+					<span style={`color:${theme.blue};`}>Wcode</span>
 					<span style={`color:${theme.foreground};`}>:~$ </span>
 					<span>echo "Hello, Wcode!"</span>
 				</div>
