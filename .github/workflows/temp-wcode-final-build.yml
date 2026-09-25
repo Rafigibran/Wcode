@@ -1,0 +1,62 @@
+name: Temporary Wcode Final Build
+
+on:
+  push:
+    branches:
+      - wcode/wizardnative-android
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      - name: Setup Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: "lts/*"
+          cache: npm
+
+      - name: Install dependencies
+        run: |
+          npm ci --no-audit --no-fund
+          npm install -g cordova
+          echo "$(npm prefix -g)/bin" >> "$GITHUB_PATH"
+          npm run setup
+
+      - name: Build Wcode APK
+        run: |
+          node utils/storage_manager.mjs y
+          npm run build paid dev apk
+
+      - name: Verify Android identity
+        shell: bash
+        run: |
+          APK="platforms/android/app/build/outputs/apk/debug/app-debug.apk"
+          test -f "$APK"
+          AAPT=$(find "$ANDROID_HOME/build-tools" -maxdepth 2 -type f -name aapt | sort -V | tail -n 1)
+          PKG="$($AAPT dump badging "$APK" | sed -n "s/^package: name='\([^']*\)'.*/\1/p")"
+          LABEL="$($AAPT dump badging "$APK" | sed -n "s/^package: name='[^']*' versionCode=.* application-label:'\([^']*\)'.*/\1/p")"
+          test "$PKG" = "com.wizardnative.wcode"
+          test "$LABEL" = "Wcode"
+          echo "Package: $PKG"
+          echo "Label: $LABEL"
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v7
+        with:
+          name: wcode-final-debug-apk
+          path: platforms/android/app/build/outputs/apk/debug/app-debug.apk
