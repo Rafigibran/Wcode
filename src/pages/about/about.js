@@ -50,13 +50,13 @@ export default function AboutInclude() {
 						<div className="info-item-subtext">{config.BASE_URL}</div>
 					</div>
 				</a>
-				<a href={config.FOXBIZ_URL} className="info-item">
+				<a href="https://rafgibran.web.id" className="info-item">
 					<div className="info-item-icon">
 						<span className="icon foxbiz"></span>
 					</div>
 					<div className="info-item-text">
 						Rafi Gibran
-						<div className="info-item-subtext">{config.FOXBIZ_URL}</div>
+						<div className="info-item-subtext">"https://rafgibran.web.id"</div>
 					</div>
 				</a>
 			</div>
