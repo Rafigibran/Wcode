@@ -6,7 +6,7 @@ import purchaseListener from "handlers/purchase";
 import JSZip from "jszip";
 import helpers from "utils/helpers";
 import Url from "utils/Url";
-import showInterstitialAd from "./interstitialAd";
+import { showInterstitialAd } from "./startAd";
 import { isVersionGreater } from "utils/version";
 import config from "./config";
 import InstallState from "./installState";
