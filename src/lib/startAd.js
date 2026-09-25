@@ -11,7 +11,7 @@ import config from "./config";
 export { BANNER_SUPPRESSION_REASON };
 
 export let adUnitIdBanner = "ca-app-pub-5911839694379275/9157899592"; // Production
-export let adUnitIdInterstitial = "ca-app-pub-3940256099942544/1033173712"; // Google test interstitial
+export let adUnitIdInterstitial = "ca-app-pub-3940256099942544/1033173712"; // Google AdMob official test interstitial
 export let adUnitIdRewarded = "ca-app-pub-5911839694379275/1633667633"; // Production
 export let initialized = false;
 
