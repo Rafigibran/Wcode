@@ -73,7 +73,7 @@ export default function Sponsor(onclose) {
 							msg = `<img src="${url}" class="donate-image" />`;
 						}
 
-						msg += "<br><p>Thank you for supporting Acode!</p>";
+						msg += "<br><p>Thank you for supporting Wcode!</p>";
 					}
 
 					const order = settledPromises[0].value;
@@ -153,7 +153,7 @@ export default function Sponsor(onclose) {
 			<div id="sponsor-page" className="main">
 				<div className="header">
 					<Logo />
-					<h1>Sponsor Acode</h1>
+					<h1>Sponsor Wcode</h1>
 					<p className="subtitle">Support the future of mobile coding</p>
 				</div>
 				<div className="tiers">

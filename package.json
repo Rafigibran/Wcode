@@ -1,8 +1,8 @@
 {
-  "name": "com.foxdebug.acode",
-  "displayName": "Acode",
+  "name": "com.wizardnative.wcode",
+  "displayName": "Wcode",
   "version": "1.13.5",
-  "description": "Acode is a code editor for android",
+  "description": "Wcode is a code editor for android",
   "scripts": {
     "lang": "node ./utils/lang.js",
     "build": "sh utils/scripts/build.sh",
