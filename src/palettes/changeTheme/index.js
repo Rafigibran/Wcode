@@ -4,6 +4,7 @@ import config from "lib/config";
 import appSettings from "lib/settings";
 import themes, { updateSystemThemeWatcher } from "theme/list";
 import changeEditorTheme from "../changeEditorTheme";
+import showInterstitialAd from "lib/interstitialAd";
 
 export default function changeTheme(type = "editor") {
 	if (type === "editor") return changeEditorTheme();
@@ -59,6 +60,7 @@ function onselect(value) {
 			CustomTheme();
 			return;
 		}
-		themes.apply(selection.theme, true);
+		void themes.apply(selection.theme, true);
+		void showInterstitialAd("app-theme-changed");
 	}
 }
