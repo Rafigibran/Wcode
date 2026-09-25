@@ -158,7 +158,8 @@ async function initializeAds() {
 		adUnitId: adUnitIdInterstitial,
 	});
 
-	void preloadInterstitial();
+	bannerAd = banner;
+	interstitialAd = interstitial;
 	interstitial.on("dismiss", () => {
 		interstitialShowing = false;
 		void preloadInterstitial();
@@ -169,9 +170,7 @@ async function initializeAds() {
 		void preloadInterstitial();
 		void drainInterstitialQueue();
 	});
-
-	bannerAd = banner;
-	interstitialAd = interstitial;
+	void preloadInterstitial();
 	bannerVisibilityController.setBanner(banner);
 	window.ad = banner;
 	window.iad = interstitial;
